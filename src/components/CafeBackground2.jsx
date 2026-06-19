@@ -6,7 +6,9 @@
  * a cat tree, hanging plants, a chandelier and lots of little props — so the
  * 20 hidden cats have many more places to blend in.
  */
-import { ink, BrickBand, PendantLight } from './sceneParts.jsx'
+import { ink, PendantLight, RoomExtension, SCENE_TOP } from './sceneParts.jsx'
+
+const FLOOR_Y = 540
 
 // A shelf full of books packed at varying heights.
 function BookRow({ x, y, n, w = 16, h = 52, gap = 3 }) {
@@ -73,41 +75,29 @@ function HangingPlant({ x, top = 0 }) {
 export default function CafeBackground2() {
   return (
     <g fill="none" stroke={ink} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      {/* ---- Walls & floor ---- */}
-      <rect x="0" y="0" width="1200" height="800" fill="#f7f3ea" stroke="none" />
-      <BrickBand y={0} h={540} rows={10} cols={16} />
-      <line x1="0" y1="540" x2="1200" y2="540" strokeWidth="3" />
-      {/* herringbone-ish floor */}
-      <g stroke={ink} strokeWidth="1.3" opacity="0.45">
-        {Array.from({ length: 16 }).map((_, i) => (
-          <line key={`fl${i}`} x1={i * 80} y1="540" x2={i * 80 - 80} y2="800" />
-        ))}
-        <line x1="0" y1="620" x2="1200" y2="620" />
-        <line x1="0" y1="700" x2="1200" y2="700" />
-        <line x1="0" y1="770" x2="1200" y2="770" />
-      </g>
-      {/* floor rug under the front tables */}
-      <ellipse cx="600" cy="720" rx="300" ry="60" opacity="0.7" />
-      <ellipse cx="600" cy="720" rx="270" ry="50" opacity="0.4" />
+      {/* ---- Tall room: high wall, floor, rug (fills a portrait phone) ---- */}
+      <RoomExtension floorY={FLOOR_Y} />
 
       {/* ---- Ceiling: chandelier + pendants + hanging plants ---- */}
-      <PendantLight x={250} />
-      <PendantLight x={980} />
+      <PendantLight x={250} top={SCENE_TOP} len={440} />
+      <PendantLight x={980} top={SCENE_TOP} len={440} />
       <g stroke={ink} strokeWidth="2.5">
-        {/* central chandelier */}
-        <line x1="600" y1="0" x2="600" y2="40" />
-        <path d="M520 70 Q600 40 680 70" />
-        <line x1="520" y1="70" x2="520" y2="86" />
-        <line x1="560" y1="58" x2="560" y2="74" />
-        <line x1="600" y1="52" x2="600" y2="68" />
-        <line x1="640" y1="58" x2="640" y2="74" />
-        <line x1="680" y1="70" x2="680" y2="86" />
-        {[520, 560, 600, 640, 680].map((x, i) => (
-          <circle key={i} cx={x} cy={i === 2 ? 74 : i === 0 || i === 4 ? 92 : 80} r="6" />
-        ))}
+        {/* central chandelier hung from the raised ceiling */}
+        <line x1="600" y1={SCENE_TOP} x2="600" y2={SCENE_TOP + 360} />
+        <g transform={`translate(0 ${SCENE_TOP + 360})`}>
+          <path d="M520 70 Q600 40 680 70" />
+          <line x1="520" y1="70" x2="520" y2="86" />
+          <line x1="560" y1="58" x2="560" y2="74" />
+          <line x1="600" y1="52" x2="600" y2="68" />
+          <line x1="640" y1="58" x2="640" y2="74" />
+          <line x1="680" y1="70" x2="680" y2="86" />
+          {[520, 560, 600, 640, 680].map((x, i) => (
+            <circle key={i} cx={x} cy={i === 2 ? 74 : i === 0 || i === 4 ? 92 : 80} r="6" />
+          ))}
+        </g>
       </g>
-      <HangingPlant x={430} />
-      <HangingPlant x={760} />
+      <HangingPlant x={430} top={SCENE_TOP} />
+      <HangingPlant x={760} top={SCENE_TOP} />
 
       {/* ---- Far-left: tall double bookshelf packed with stuff ---- */}
       <g>

@@ -5,28 +5,31 @@
  * interactivity. Hidden cats and hitboxes are layered on top by CafeScene.
  * Everything is line work (no fills) so it reads like a coloring-book page.
  */
-import { ink, BrickBand, PendantLight } from './sceneParts.jsx'
+import { ink, PendantLight, RoomExtension, SCENE_TOP } from './sceneParts.jsx'
+
+const FLOOR_Y = 560
 
 export default function CafeBackground() {
   return (
     <g fill="none" stroke={ink} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      {/* ---- Walls & floor ---- */}
-      <rect x="0" y="0" width="1200" height="800" fill="#f7f3ea" stroke="none" />
-      <BrickBand y={0} h={560} rows={9} cols={14} />
-      {/* floor line + tiles */}
-      <line x1="0" y1="560" x2="1200" y2="560" strokeWidth="3" />
-      <g stroke={ink} strokeWidth="1.4" opacity="0.5">
-        {Array.from({ length: 13 }).map((_, i) => (
-          <line key={i} x1={i * 100} y1="560" x2={i * 100 - 60} y2="800" />
-        ))}
-        <line x1="0" y1="650" x2="1200" y2="650" />
-        <line x1="0" y1="730" x2="1200" y2="730" />
-      </g>
+      {/* ---- Tall room: high wall, floor, rug (fills a portrait phone) ---- */}
+      <RoomExtension floorY={FLOOR_Y} />
 
-      {/* ---- Pendant lights ---- */}
-      <PendantLight x={300} />
-      <PendantLight x={620} />
-      <PendantLight x={920} />
+      {/* ---- Pendant lights hung from the raised ceiling ---- */}
+      <PendantLight x={300} top={SCENE_TOP} len={440} />
+      <PendantLight x={620} top={SCENE_TOP} len={480} />
+      <PendantLight x={920} top={SCENE_TOP} len={440} />
+      {/* hanging plants for ceiling interest */}
+      <g>
+        <line x1="150" y1={SCENE_TOP} x2="150" y2={SCENE_TOP + 150} strokeWidth="1.6" />
+        <path d={`M126 ${SCENE_TOP + 170} Q150 ${SCENE_TOP + 146} 174 ${SCENE_TOP + 170} L168 ${SCENE_TOP + 188} L132 ${SCENE_TOP + 188} Z`} />
+        <path d={`M138 ${SCENE_TOP + 188} C128 ${SCENE_TOP + 220} 134 ${SCENE_TOP + 232} 136 ${SCENE_TOP + 244} M150 ${SCENE_TOP + 188} C150 ${SCENE_TOP + 224} 150 ${SCENE_TOP + 234} 150 ${SCENE_TOP + 246} M162 ${SCENE_TOP + 188} C172 ${SCENE_TOP + 222} 166 ${SCENE_TOP + 234} 164 ${SCENE_TOP + 246}`} />
+      </g>
+      <g>
+        <line x1="1060" y1={SCENE_TOP} x2="1060" y2={SCENE_TOP + 120} strokeWidth="1.6" />
+        <path d={`M1040 ${SCENE_TOP + 138} Q1060 ${SCENE_TOP + 118} 1080 ${SCENE_TOP + 138} L1075 ${SCENE_TOP + 154} L1045 ${SCENE_TOP + 154} Z`} />
+        <path d={`M1050 ${SCENE_TOP + 154} C1042 ${SCENE_TOP + 182} 1048 ${SCENE_TOP + 192} 1050 ${SCENE_TOP + 202} M1060 ${SCENE_TOP + 154} C1060 ${SCENE_TOP + 186} 1060 ${SCENE_TOP + 196} 1060 ${SCENE_TOP + 206} M1070 ${SCENE_TOP + 154} C1078 ${SCENE_TOP + 184} 1072 ${SCENE_TOP + 194} 1070 ${SCENE_TOP + 204}`} />
+      </g>
 
       {/* ---- Left bookshelf with jars & books ---- */}
       <g>

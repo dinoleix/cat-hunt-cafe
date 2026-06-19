@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from 'react'
 import Cat from './Cat.jsx'
+import { SCENE_VIEWBOX } from './sceneParts.jsx'
 
 /**
  * CafeScene — the playable SVG. Background art + hidden cats + hit testing.
@@ -71,7 +72,7 @@ export default function CafeScene({
   return (
     <svg
       ref={svgRef}
-      viewBox="0 0 1200 800"
+      viewBox={SCENE_VIEWBOX}
       preserveAspectRatio="xMidYMid meet"
       className={`cursor-pencil select-none touch-manipulation ${className}`}
       onPointerDown={handleTap}
