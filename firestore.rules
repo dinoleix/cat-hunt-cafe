@@ -1,0 +1,60 @@
+rules_version = '2';
+
+// Security rules for Cat Hunt Café.
+//
+// The game has no login — players just type a name — so these rules let anyone
+// READ the leaderboard and SUBMIT a score (with light validation so the data
+// stays clean), while protecting existing scores from tampering/deletion.
+//
+// NOTE: the admin panel writes prizes & winner tags from the browser without
+// auth, so `prizes` and winner updates are left open below to keep it working
+// as-is. That's fine for a casual café game. To truly lock the admin down, add
+// Firebase Auth and gate those writes behind `request.auth != null` (see the
+// commented "HARDENED" block at the bottom).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Leaderboard ----
+    match /leaderboard/{entry} {
+      allow read: if true;
+
+      // A new score must look like a real score.
+      allow create: if
+        request.resource.data.name is string &&
+        request.resource.data.name.size() <= 20 &&
+        request.resource.data.cats is int &&
+        request.resource.data.cats >= 0 && request.resource.data.cats <= 100 &&
+        request.resource.data.timeMs is int &&
+        request.resource.data.timeMs >= 0 &&
+        request.resource.data.level is int;
+
+      // Admin "set winner" tags an existing entry; allow updates but never let
+      // the core score change, and never allow deletes.
+      allow update: if
+        request.resource.data.name == resource.data.name &&
+        request.resource.data.cats == resource.data.cats &&
+        request.resource.data.timeMs == resource.data.timeMs;
+      allow delete: if false;
+    }
+
+    // ---- Prizes (admin config) ----
+    match /prizes/{prize} {
+      allow read: if true;
+      allow write: if true; // admin panel manages these from the browser
+    }
+  }
+}
+
+// ---- HARDENED variant (optional) -------------------------------------------
+// 1. Add Firebase Authentication and sign the admin in.
+// 2. Replace the prizes block + leaderboard update rule with:
+//
+//   match /prizes/{prize} {
+//     allow read: if true;
+//     allow write: if request.auth != null;   // only signed-in admin
+//   }
+//   // and in /leaderboard: allow update: if request.auth != null;
+//
+// Players still submit scores unauthenticated; only the admin can edit prizes
+// and award winners.
