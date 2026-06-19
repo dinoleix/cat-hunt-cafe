@@ -1,0 +1,18 @@
+{
+  "name": "Cat Hunt Café",
+  "short_name": "Cat Hunt",
+  "description": "Find all the hidden cats in the cozy café!",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1c1a17",
+  "theme_color": "#1c1a17",
+  "icons": [
+    {
+      "src": "/cat-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

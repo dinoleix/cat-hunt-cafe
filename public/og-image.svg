@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1c1a17"/>
+  <g fill="none" stroke="#3a352e" stroke-width="2">
+    <rect x="60" y="60" width="1080" height="510" rx="20"/>
+  </g>
+  <g fill="#f5a623" stroke="#f5a623" stroke-width="6" stroke-linejoin="round" transform="translate(490 110) scale(2.2)">
+    <path d="M50 86 C32 86 28 66 32 53 C35 42 41 37 50 37 C59 37 65 42 68 53 C72 66 68 86 50 86 Z"/>
+    <path d="M35 48 L29 30 L43 43 Z"/>
+    <path d="M65 48 L71 30 L57 43 Z"/>
+  </g>
+  <text x="600" y="470" text-anchor="middle" font-family="'Baloo 2', sans-serif" font-size="86" font-weight="800" fill="#f5a623">Cat Hunt Café</text>
+  <text x="600" y="530" text-anchor="middle" font-family="Nunito, sans-serif" font-size="34" fill="#f7f3ea">Find all the hidden cats — can you beat the leaderboard?</text>
+</svg>
