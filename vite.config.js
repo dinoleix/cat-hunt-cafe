@@ -15,6 +15,10 @@ try {
 }
 
 export default defineConfig({
+  // Base path: '/' for local dev and root deploys (Vercel/Netlify); the GitHub
+  // Pages workflow sets VITE_BASE=/cat-hunt-cafe/ so assets resolve under the
+  // project subpath. React Router reads the same value via import.meta.env.BASE_URL.
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   // When firebase isn't installed, keep the dev dep-scanner from trying to
   // pre-bundle it (the adapter is only ever loaded when VITE_BACKEND=firebase).
